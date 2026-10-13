@@ -11,8 +11,8 @@ const A=[{id:'openai',n:'OpenAI',m:'GPT',c:'#2fb89a',l:'O',st:'aggressive monopo
 const ac=id=>A.find(a=>a.id==id);
 let LIVE=null,LIVE_CTRL=null;
 const wealthStr=a=>(+a.sol||0).toFixed(3)+' SOL';
-const BRAINS={openai:'OpenAI · GPT',grok:'xAI · Grok',anthropic:'Anthropic · Claude',google:'Google · Gemini',qwen:'Alibaba · Qwen'};
-const brainStr=a=>BRAINS[String(a.id).toLowerCase()]||(a.provider?`${a.provider} · ${a.model}`:'OpenAI');
+const BRAINS={openai:'OpenAI',grok:'xAI',anthropic:'Anthropic',google:'Google',qwen:'Alibaba'};
+const brainStr=a=>{const co=BRAINS[String(a.id).toLowerCase()]||a.provider||'';return a.model?`${co} · ${String(a.model).split('/').pop()}`:(co||'—')};
 const fin=v=>Number.isFinite(v)?v:0;
 const pick=r=>r[Math.random()*r.length|0];
 
@@ -510,9 +510,7 @@ function applyLive(s){
   const a=ac(e.agent);if(a&&e.district!=null){const mine=dPlots[e.district].filter(p=>p.o===a.id);const p=pick(mine.length?mine:dPlots[e.district]);goTo(a,p.x,p.z)}}
  {const em=feed.querySelector('.empty');if(feed.querySelector('.ev:not(.empty)'))em?.remove();else if(!em)feed.innerHTML='<div class="ev empty">No transactions yet</div>'}
  const h=bank.hist;h.push(s.bank.balance_sol);if(h.length>60)h.shift();
- setSeason('Models currently running on OpenAI during beta'+(s.mode==='live'?'':' · test mode'));
  render()}
 async function poll(){if(qsL.get('mock'))return;try{const r=await fetch(API,{cache:'no-store',signal:AbortSignal.timeout(2500)});if(!r.ok)throw new Error(r.status);applyLive(await r.json())}
- catch(e){if(!LIVE){document.getElementById('tick').textContent='0'}if(LIVE)setSeason('Models currently running on OpenAI during beta')}}
-setSeason('Models currently running on OpenAI during beta');
+ catch(e){if(!LIVE){document.getElementById('tick').textContent='0'}}}
 poll();setInterval(poll,4000);
