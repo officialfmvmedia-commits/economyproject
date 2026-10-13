@@ -481,7 +481,7 @@ loop();
 
 // ---------- LIVE: read the engine's public state API; fall back to mock ticks ----------
 const qsL=new URLSearchParams(location.search);
-const PUBLIC_API='https://midwest-connection-advertising-library.trycloudflare.com/state'; // quick-tunnel URL changes when cloudflared restarts
+const PUBLIC_API='https://lil-invention-contamination-downloads.trycloudflare.com/state'; // quick-tunnel URL changes when cloudflared restarts
 const API=qsL.get('api')||(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://127.0.0.1:8787/state':PUBLIC_API);
 const MODE_LABEL={mock:'sim',dry:'dry run',live:'LIVE'};
 const seenEv=new Set();
@@ -490,7 +490,7 @@ function setSeason(t){if(seasonEl)seasonEl.textContent=t}
 function linkify(text){let h=text;for(const a of A)h=h.replace(new RegExp('\\b'+a.id+'\\b','g'),cr(a));return h}
 function applyLive(s){
  if(!LIVE){clearInterval(fakeTimer);feed.innerHTML='';plots.forEach(p=>{if(!p.hq&&p.o)setOwn(p,null)})}
- LIVE=s;tick=s.tick;document.getElementById('tick').textContent=s.tick;
+ LIVE=s;window.__AIE_STATE=s;window.dispatchEvent(new Event('aie-state'));tick=s.tick;document.getElementById('tick').textContent=s.tick;
  const lv=document.querySelector('.live');if(lv){lv.textContent='● '+(MODE_LABEL[s.mode]||s.mode)+(s.kill_switch?' · KILLED':'');lv.style.color=s.mode==='live'?'#e2774f':'#4fb36b'}
  for(const sa of s.agents){const a=ac(sa.id);if(!a)continue;Object.assign(a,{sol:sa.balance_sol,land:sa.plots,bld:sa.buildings,dc:sa.districts,pow:sa.power,provider:sa.provider,model:sa.model,pubkey:sa.pubkey});if(sa.quote&&sa.quote!==a.q)say(a,sa.quote)}
  // map engine ownership counts onto the visual plots (scaled per district)
