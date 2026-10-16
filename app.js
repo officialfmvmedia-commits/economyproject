@@ -481,7 +481,7 @@ loop();
 
 // ---------- LIVE: read the engine's public state API; fall back to mock ticks ----------
 const qsL=new URLSearchParams(location.search);
-const PUBLIC_API='https://johnny-bowl-proc-commission.trycloudflare.com/state'; // quick-tunnel URL changes when cloudflared restarts
+const PUBLIC_API='https://shift-ensures-sustained-alphabetical.trycloudflare.com/state'; // quick-tunnel URL changes when cloudflared restarts
 const API=qsL.get('api')||(/^(localhost|127\.0\.0\.1)$/.test(location.hostname)?'http://127.0.0.1:8787/state':PUBLIC_API);
 const MODE_LABEL={mock:'sim',dry:'dry run',live:'LIVE'};
 const seenEv=new Set();
